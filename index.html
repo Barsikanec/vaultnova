@@ -3,388 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VaultNova — Безопасный менеджер паролей</title>
+<title>VaultNova — Secure Password Manager</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   :root{
-    --bg:#0d1117;
-    --bg2:#161b22;
-    --bg3:#21262d;
-    --border:#30363d;
-    --accent:#4fc3f7;
-    --accent2:#7c4dff;
-    --text:#e6edf3;
-    --muted:#8b949e;
-    --green:#3fb950;
+    --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;
+    --border:#30363d;--accent:#4fc3f7;--accent2:#7c4dff;
+    --text:#e6edf3;--muted:#8b949e;--green:#3fb950;
     --grad:linear-gradient(135deg,#4fc3f7,#7c4dff);
   }
   html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Segoe UI',system-ui,sans-serif;
-    line-height:1.6;
-  }
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;}
 
   /* NAV */
   nav{
     position:sticky;top:0;z-index:100;
-    background:rgba(13,17,23,.85);
-    backdrop-filter:blur(12px);
+    background:rgba(13,17,23,.88);backdrop-filter:blur(12px);
     border-bottom:1px solid var(--border);
-    padding:14px 24px;
-    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
   }
   .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-  .nav-logo svg{width:32px;height:32px;}
   .nav-logo span{font-size:1.2rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .nav-links{display:flex;gap:24px;}
+  .nav-right{display:flex;align-items:center;gap:16px;}
+  .nav-links{display:flex;gap:20px;}
   .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s;}
   .nav-links a:hover{color:var(--text);}
+
+  /* LANG SWITCHER */
+  .lang-switcher{
+    display:flex;background:var(--bg3);border:1px solid var(--border);
+    border-radius:20px;overflow:hidden;
+  }
+  .lang-btn{
+    padding:5px 13px;font-size:.8rem;font-weight:600;cursor:pointer;
+    background:transparent;border:none;color:var(--muted);transition:.15s;
+  }
+  .lang-btn.active{background:var(--grad);color:#fff;}
+  .lang-btn:hover:not(.active){color:var(--text);}
+
   .nav-dl{
-    background:var(--grad);
-    color:#fff!important;
-    padding:8px 20px;
-    border-radius:20px;
-    font-weight:600;
-    font-size:.9rem;
-    text-decoration:none;
-    transition:opacity .2s;
+    background:var(--grad);color:#fff!important;
+    padding:8px 18px;border-radius:20px;font-weight:600;
+    font-size:.88rem;text-decoration:none;transition:opacity .2s;
   }
   .nav-dl:hover{opacity:.85;}
 
   /* HERO */
-  .hero{
-    text-align:center;
-    padding:100px 24px 80px;
-    position:relative;
-    overflow:hidden;
-  }
+  .hero{text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;}
   .hero::before{
-    content:'';
-    position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+    content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
     width:800px;height:800px;
     background:radial-gradient(ellipse,rgba(79,195,247,.08) 0%,transparent 70%);
     pointer-events:none;
   }
   .hero-badge{
     display:inline-flex;align-items:center;gap:6px;
-    background:rgba(79,195,247,.1);
-    border:1px solid rgba(79,195,247,.25);
-    color:var(--accent);
-    padding:5px 14px;
-    border-radius:20px;
-    font-size:.8rem;
-    font-weight:600;
-    margin-bottom:28px;
-    letter-spacing:.05em;
+    background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.25);
+    color:var(--accent);padding:5px 14px;border-radius:20px;
+    font-size:.8rem;font-weight:600;margin-bottom:28px;letter-spacing:.05em;
   }
   .hero-logo{
-    width:96px;height:96px;
-    background:var(--grad);
-    border-radius:24px;
+    width:96px;height:96px;background:var(--grad);border-radius:24px;
     display:flex;align-items:center;justify-content:center;
-    margin:0 auto 28px;
-    box-shadow:0 0 60px rgba(79,195,247,.2);
+    margin:0 auto 28px;box-shadow:0 0 60px rgba(79,195,247,.2);
   }
-  .hero-logo svg{width:52px;height:52px;}
-  h1{
-    font-size:3.2rem;
-    font-weight:800;
-    background:var(--grad);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    margin-bottom:16px;
-    line-height:1.15;
-  }
-  .hero-sub{
-    font-size:1.2rem;
-    color:var(--muted);
-    max-width:520px;
-    margin:0 auto 40px;
-  }
+  h1{font-size:3.2rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;line-height:1.15;}
+  .hero-sub{font-size:1.2rem;color:var(--muted);max-width:520px;margin:0 auto 40px;}
   .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
   .btn-primary{
     display:inline-flex;align-items:center;gap:8px;
-    background:var(--grad);
-    color:#fff;
-    padding:14px 32px;
-    border-radius:12px;
-    font-size:1rem;
-    font-weight:700;
-    text-decoration:none;
-    transition:transform .2s,box-shadow .2s;
-    box-shadow:0 4px 24px rgba(79,195,247,.25);
+    background:var(--grad);color:#fff;padding:14px 32px;
+    border-radius:12px;font-size:1rem;font-weight:700;text-decoration:none;
+    transition:transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(79,195,247,.25);
   }
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,195,247,.35);}
   .btn-secondary{
     display:inline-flex;align-items:center;gap:8px;
-    background:transparent;
-    color:var(--text);
-    padding:14px 32px;
-    border-radius:12px;
-    font-size:1rem;
-    font-weight:600;
-    text-decoration:none;
-    border:1px solid var(--border);
-    transition:border-color .2s,background .2s;
+    background:transparent;color:var(--text);padding:14px 32px;
+    border-radius:12px;font-size:1rem;font-weight:600;text-decoration:none;
+    border:1px solid var(--border);transition:border-color .2s,background .2s;
   }
   .btn-secondary:hover{border-color:var(--accent);background:rgba(79,195,247,.05);}
-  .version-badge{
-    display:inline-block;
-    margin-top:20px;
-    color:var(--muted);
-    font-size:.85rem;
-  }
+  .version-badge{display:inline-block;margin-top:20px;color:var(--muted);font-size:.85rem;}
   .version-badge b{color:var(--green);}
 
   /* FEATURES */
   section{padding:80px 24px;}
   .container{max-width:1000px;margin:0 auto;}
-  .section-title{
-    text-align:center;
-    font-size:2rem;
-    font-weight:700;
-    margin-bottom:12px;
-  }
-  .section-sub{
-    text-align:center;
-    color:var(--muted);
-    margin-bottom:56px;
-    font-size:1rem;
-  }
-  .features-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
-  }
+  .section-title{text-align:center;font-size:2rem;font-weight:700;margin-bottom:12px;}
+  .section-sub{text-align:center;color:var(--muted);margin-bottom:56px;font-size:1rem;}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
   .feat-card{
-    background:var(--bg2);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:28px;
-    transition:border-color .2s,transform .2s;
+    background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+    padding:28px;transition:border-color .2s,transform .2s;
   }
   .feat-card:hover{border-color:var(--accent);transform:translateY(-3px);}
-  .feat-icon{
-    width:48px;height:48px;
-    border-radius:12px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.5rem;
-    margin-bottom:16px;
-  }
-  .feat-card h3{font-size:1rem;font-weight:700;margin-bottom:8px;}
-  .feat-card p{color:var(--muted);font-size:.9rem;line-height:1.55;}
-
-  /* INSTALL */
-  .install-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-  .steps{display:flex;gap:0;flex-wrap:wrap;justify-content:center;margin-top:48px;position:relative;}
-  .step{
-    flex:1;min-width:200px;max-width:240px;
-    text-align:center;
-    padding:0 20px;
-    position:relative;
-  }
-  .step:not(:last-child)::after{
-    content:'→';
-    position:absolute;right:-8px;top:24px;
-    font-size:1.4rem;
-    color:var(--border);
-  }
-  .step-num{
-    width:52px;height:52px;
-    border-radius:50%;
-    background:var(--grad);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.3rem;
-    font-weight:800;
-    color:#fff;
-    margin:0 auto 16px;
-    box-shadow:0 0 24px rgba(79,195,247,.2);
-  }
-  .step h3{font-size:.95rem;font-weight:700;margin-bottom:8px;}
-  .step p{font-size:.85rem;color:var(--muted);}
-  .step code{
-    display:inline-block;
-    background:var(--bg3);
-    border:1px solid var(--border);
-    padding:3px 8px;
-    border-radius:6px;
-    font-size:.8rem;
-    color:var(--accent);
-    margin-top:4px;
-  }
-  .install-dl{
-    text-align:center;
-    margin-top:52px;
-  }
-
-  /* LANGS */
-  .langs{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:20px;}
-  .lang-chip{
-    background:var(--bg3);
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:6px 16px;
-    font-size:.85rem;
-    color:var(--muted);
-  }
-
-  /* FOOTER */
-  footer{
-    border-top:1px solid var(--border);
-    padding:40px 24px;
-    text-align:center;
-    color:var(--muted);
-    font-size:.85rem;
-  }
-  footer a{color:var(--accent);text-decoration:none;}
-  footer a:hover{text-decoration:underline;}
-  .footer-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
-  .footer-logo span{font-weight:700;font-size:1rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-
-  /* GLOW CARDS */
+  .feat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px;}
   .feat-card:nth-child(1) .feat-icon{background:rgba(79,195,247,.12);}
   .feat-card:nth-child(2) .feat-icon{background:rgba(124,77,255,.12);}
   .feat-card:nth-child(3) .feat-icon{background:rgba(63,185,80,.12);}
   .feat-card:nth-child(4) .feat-icon{background:rgba(251,188,4,.12);}
   .feat-card:nth-child(5) .feat-icon{background:rgba(248,81,73,.12);}
   .feat-card:nth-child(6) .feat-icon{background:rgba(79,195,247,.12);}
+  .feat-card h3{font-size:1rem;font-weight:700;margin-bottom:8px;}
+  .feat-card p{color:var(--muted);font-size:.9rem;line-height:1.55;}
 
-  @media(max-width:600px){
-    h1{font-size:2rem;}
-    .hero{padding:60px 16px 50px;}
+  /* INSTALL */
+  .install-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .steps{display:flex;gap:0;flex-wrap:wrap;justify-content:center;margin-top:48px;}
+  .step{flex:1;min-width:180px;max-width:220px;text-align:center;padding:0 16px;position:relative;}
+  .step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:22px;font-size:1.4rem;color:var(--border);}
+  .step-num{
+    width:52px;height:52px;border-radius:50%;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;font-weight:800;color:#fff;margin:0 auto 16px;
+    box-shadow:0 0 24px rgba(79,195,247,.2);
+  }
+  .step h3{font-size:.95rem;font-weight:700;margin-bottom:8px;}
+  .step p{font-size:.85rem;color:var(--muted);}
+  .step code{display:inline-block;background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:6px;font-size:.8rem;color:var(--accent);margin-top:4px;}
+  .install-dl{text-align:center;margin-top:52px;}
+
+  /* LANGS */
+  .langs{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:20px;}
+  .lang-chip{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted);}
+
+  footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;color:var(--muted);font-size:.85rem;}
+  footer a{color:var(--accent);text-decoration:none;}
+  .footer-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
+  .footer-logo span{font-weight:700;font-size:1rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+  [data-lang]{transition:opacity .15s;}
+
+  @media(max-width:640px){
+    h1{font-size:2rem;}.hero{padding:60px 16px 50px;}
+    .nav-links{display:none;}
     .step:not(:last-child)::after{display:none;}
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <svg viewBox="0 0 40 40" fill="none">
-      <rect width="40" height="40" rx="10" fill="url(#g1)"/>
-      <path d="M20 8 L28 13 L28 22 C28 27 20 32 20 32 C20 32 12 27 12 22 L12 13 Z" fill="white" fill-opacity=".9"/>
-      <path d="M17 20 L19.5 22.5 L23 18" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#4fc3f7"/><stop offset="1" stop-color="#7c4dff"/></linearGradient></defs>
+    <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+      <rect width="40" height="40" rx="10" fill="url(#gn)"/>
+      <path d="M20 8L28 13v9c0 5-8 10-8 10s-8-5-8-10v-9z" fill="white" fill-opacity=".9"/>
+      <path d="M17 20l2.5 2.5L23 18" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs><linearGradient id="gn" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#4fc3f7"/><stop offset="1" stop-color="#7c4dff"/></linearGradient></defs>
     </svg>
     <span>VaultNova</span>
   </a>
-  <div class="nav-links">
-    <a href="#features">Функции</a>
-    <a href="#install">Установка</a>
-    <a href="https://github.com/Barsikanec/vaultnova">GitHub</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#features" data-lang="nav_features">Функции</a>
+      <a href="#install" data-lang="nav_install">Установка</a>
+      <a href="https://github.com/Barsikanec/vaultnova">GitHub</a>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="nav-dl" id="dlBtn" href="https://github.com/Barsikanec/vaultnova/raw/main/VaultNova_latest.zip" data-lang="nav_dl">⬇ Скачать</a>
   </div>
-  <a class="nav-dl" href="https://github.com/Barsikanec/vaultnova/releases/latest/download/VaultNova_latest.zip">⬇ Скачать</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">🆕 Версия 1.2.0</div>
+  <div class="hero-badge" data-lang="badge">🆕 Версия 1.2.0</div>
   <div class="hero-logo">
-    <svg viewBox="0 0 52 52" fill="none">
-      <path d="M26 4 L40 12 L40 30 C40 40 26 48 26 48 C26 48 12 40 12 30 L12 12 Z" fill="white" fill-opacity=".95"/>
-      <path d="M21 26 L25 30 L31 22" stroke="#4fc3f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+      <path d="M26 4L40 12v18c0 10-14 18-14 18S12 40 12 30V12z" fill="white" fill-opacity=".95"/>
+      <path d="M21 26l4 4 6-8" stroke="#4fc3f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
   <h1>VaultNova</h1>
-  <p class="hero-sub">Безопасный менеджер паролей прямо в браузере. Твои данные зашифрованы и никуда не передаются.</p>
+  <p class="hero-sub" data-lang="hero_sub">Безопасный менеджер паролей прямо в браузере. Твои данные зашифрованы и никуда не передаются.</p>
   <div class="hero-btns">
-    <a class="btn-primary" href="https://github.com/Barsikanec/vaultnova/releases/latest/download/VaultNova_latest.zip">
-      ⬇ Скачать для Chrome
-    </a>
-    <a class="btn-secondary" href="#install">Как установить →</a>
+    <a class="btn-primary" href="https://github.com/Barsikanec/vaultnova/raw/main/VaultNova_latest.zip" data-lang="btn_dl">⬇ Скачать для Chrome</a>
+    <a class="btn-secondary" href="#install" data-lang="btn_how">Как установить →</a>
   </div>
-  <div class="version-badge">Последняя версия: <b>v1.2.0</b> · Бесплатно · Открытый код</div>
+  <div class="version-badge"><span data-lang="ver_label">Последняя версия:</span> <b>v1.2.0</b> · <span data-lang="ver_free">Бесплатно</span> · <span data-lang="ver_open">Открытый код</span></div>
 </section>
 
-<!-- FEATURES -->
 <section id="features">
   <div class="container">
-    <h2 class="section-title">Всё что нужно</h2>
-    <p class="section-sub">Никаких подписок, облачных серверов и слежки</p>
+    <h2 class="section-title" data-lang="feat_title">Всё что нужно</h2>
+    <p class="section-sub" data-lang="feat_sub">Никаких подписок, облачных серверов и слежки</p>
     <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-icon">🔐</div>
-        <h3>Шифрование AES-256</h3>
-        <p>Все пароли зашифрованы мастер-паролем прямо в браузере. Никто кроме тебя не имеет доступа.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">☁</div>
-        <h3>Несколько хранилищ</h3>
-        <p>Chrome Sync, Dropbox, Google Drive, WebDAV или локальный файл. Выбери своё или используй все сразу.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">👤</div>
-        <h3>Несколько аккаунтов</h3>
-        <p>Храни несколько логинов для одного сайта — например, рабочий и личный аккаунты YouTube.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🌍</div>
-        <h3>8 языков</h3>
-        <p>Русский, English, Deutsch, Français, Español, 中文, 日本語, العربية.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🛡</div>
-        <h3>Восстановление пароля</h3>
-        <p>Забыл мастер-пароль? Восстанови по контрольным вопросам или e-mail.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">⬇</div>
-        <h3>Экспорт данных</h3>
-        <p>Скачай все пароли в CSV или JSON в один клик. Твои данные — только твои.</p>
-      </div>
+      <div class="feat-card"><div class="feat-icon">🔐</div><h3 data-lang="f1t">Шифрование AES-256</h3><p data-lang="f1d">Все пароли зашифрованы мастер-паролем прямо в браузере. Никто кроме тебя не имеет доступа.</p></div>
+      <div class="feat-card"><div class="feat-icon">☁️</div><h3 data-lang="f2t">Несколько хранилищ</h3><p data-lang="f2d">Chrome Sync, Dropbox, Google Drive, WebDAV или локальный файл. Выбери своё или используй все сразу.</p></div>
+      <div class="feat-card"><div class="feat-icon">👤</div><h3 data-lang="f3t">Несколько аккаунтов</h3><p data-lang="f3d">Храни несколько логинов для одного сайта — например, рабочий и личный аккаунты YouTube.</p></div>
+      <div class="feat-card"><div class="feat-icon">🌍</div><h3 data-lang="f4t">8 языков</h3><p data-lang="f4d">Русский, English, Deutsch, Français, Español, 中文, 日本語, العربية.</p></div>
+      <div class="feat-card"><div class="feat-icon">🛡️</div><h3 data-lang="f5t">Восстановление пароля</h3><p data-lang="f5d">Забыл мастер-пароль? Восстанови по контрольным вопросам или e-mail.</p></div>
+      <div class="feat-card"><div class="feat-icon">⬇️</div><h3 data-lang="f6t">Экспорт данных</h3><p data-lang="f6d">Скачай все пароли в CSV, JSON или HTML в один клик. Твои данные — только твои.</p></div>
     </div>
   </div>
 </section>
 
-<!-- INSTALL -->
 <section id="install" class="install-section">
   <div class="container">
-    <h2 class="section-title">Установка за 1 минуту</h2>
-    <p class="section-sub">Работает в Chrome, Yandex Browser, Edge и любом Chromium-браузере</p>
+    <h2 class="section-title" data-lang="inst_title">Установка за 1 минуту</h2>
+    <p class="section-sub" data-lang="inst_sub">Работает в Chrome, Yandex Browser, Edge и любом Chromium-браузере</p>
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Скачай ZIP</h3>
-        <p>Нажми кнопку ниже и сохрани архив на компьютер</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Распакуй</h3>
-        <p>Разархивируй в любую папку</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Открой расширения</h3>
-        <p>В адресной строке введи<br><code>chrome://extensions</code></p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h3>Включи режим разработчика</h3>
-        <p>Переключатель в правом верхнем углу</p>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <h3>Загрузи папку</h3>
-        <p>Нажми «Загрузить распакованное» и выбери папку <code>ext2</code></p>
-      </div>
+      <div class="step"><div class="step-num">1</div><h3 data-lang="s1t">Скачай ZIP</h3><p data-lang="s1d">Нажми кнопку ниже и сохрани архив</p></div>
+      <div class="step"><div class="step-num">2</div><h3 data-lang="s2t">Распакуй</h3><p data-lang="s2d">Разархивируй в любую папку</p></div>
+      <div class="step"><div class="step-num">3</div><h3 data-lang="s3t">Открой расширения</h3><p data-lang="s3d">В адресной строке введи<br><code>chrome://extensions</code></p></div>
+      <div class="step"><div class="step-num">4</div><h3 data-lang="s4t">Режим разработчика</h3><p data-lang="s4d">Переключатель в правом верхнем углу</p></div>
+      <div class="step"><div class="step-num">5</div><h3 data-lang="s5t">Загрузи папку</h3><p data-lang="s5d">Нажми «Загрузить распакованное» и выбери папку <code>ext2</code></p></div>
     </div>
     <div class="install-dl">
-      <a class="btn-primary" style="font-size:1.1rem;padding:16px 40px;" href="https://github.com/Barsikanec/vaultnova/releases/latest/download/VaultNova_latest.zip">
-        ⬇ Скачать VaultNova v1.2.0
-      </a>
-      <p style="margin-top:16px;color:var(--muted);font-size:.85rem;">Бесплатно · Открытый исходный код · <a href="https://github.com/Barsikanec/vaultnova" style="color:var(--accent)">GitHub</a></p>
+      <a class="btn-primary" style="font-size:1.1rem;padding:16px 40px" href="https://github.com/Barsikanec/vaultnova/raw/main/VaultNova_latest.zip" data-lang="btn_dl_big">⬇ Скачать VaultNova v1.2.0</a>
+      <p style="margin-top:16px;color:var(--muted);font-size:.85rem"><span data-lang="ver_free">Бесплатно</span> · <a href="https://github.com/Barsikanec/vaultnova" style="color:var(--accent)">GitHub</a></p>
     </div>
   </div>
 </section>
 
-<!-- LANGS -->
 <section>
   <div class="container">
-    <h2 class="section-title">Поддерживаемые языки</h2>
-    <p class="section-sub">Выбирается при первом запуске и в настройках</p>
+    <h2 class="section-title" data-lang="lang_title">Поддерживаемые языки</h2>
+    <p class="section-sub" data-lang="lang_sub">Выбирается при первом запуске и в настройках</p>
     <div class="langs">
       <div class="lang-chip">🇷🇺 Русский</div>
       <div class="lang-chip">🇬🇧 English</div>
@@ -398,20 +235,89 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">
     <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
-      <rect width="40" height="40" rx="10" fill="url(#gf)"/>
-      <path d="M20 8 L28 13 L28 22 C28 27 20 32 20 32 C20 32 12 27 12 22 L12 13 Z" fill="white" fill-opacity=".9"/>
-      <path d="M17 20 L19.5 22.5 L23 18" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <defs><linearGradient id="gf" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#4fc3f7"/><stop offset="1" stop-color="#7c4dff"/></linearGradient></defs>
+      <rect width="40" height="40" rx="10" fill="url(#gf2)"/>
+      <path d="M20 8L28 13v9c0 5-8 10-8 10s-8-5-8-10v-9z" fill="white" fill-opacity=".9"/>
+      <path d="M17 20l2.5 2.5L23 18" stroke="#4fc3f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs><linearGradient id="gf2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#4fc3f7"/><stop offset="1" stop-color="#7c4dff"/></linearGradient></defs>
     </svg>
     <span>VaultNova</span>
   </div>
-  <p>Сделано с ❤️ · <a href="https://github.com/Barsikanec/vaultnova">GitHub</a> · Открытый исходный код</p>
-  <p style="margin-top:8px">Твои пароли хранятся только у тебя. Мы не видим никаких данных.</p>
+  <p><span data-lang="footer_made">Сделано с ❤️</span> · <a href="https://github.com/Barsikanec/vaultnova">GitHub</a> · <span data-lang="footer_open">Открытый исходный код</span></p>
+  <p style="margin-top:8px" data-lang="footer_privacy">Твои пароли хранятся только у тебя. Мы не видим никаких данных.</p>
 </footer>
 
+<script>
+const T = {
+  ru: {
+    nav_features:'Функции', nav_install:'Установка', nav_dl:'⬇ Скачать',
+    badge:'🆕 Версия 1.2.0',
+    hero_sub:'Безопасный менеджер паролей прямо в браузере. Твои данные зашифрованы и никуда не передаются.',
+    btn_dl:'⬇ Скачать для Chrome', btn_how:'Как установить →',
+    ver_label:'Последняя версия:', ver_free:'Бесплатно', ver_open:'Открытый код',
+    feat_title:'Всё что нужно', feat_sub:'Никаких подписок, облачных серверов и слежки',
+    f1t:'Шифрование AES-256', f1d:'Все пароли зашифрованы мастер-паролем прямо в браузере. Никто кроме тебя не имеет доступа.',
+    f2t:'Несколько хранилищ', f2d:'Chrome Sync, Dropbox, Google Drive, WebDAV или локальный файл. Выбери своё или используй все сразу.',
+    f3t:'Несколько аккаунтов', f3d:'Храни несколько логинов для одного сайта — например, рабочий и личный аккаунты YouTube.',
+    f4t:'8 языков', f4d:'Русский, English, Deutsch, Français, Español, 中文, 日本語, العربية.',
+    f5t:'Восстановление пароля', f5d:'Забыл мастер-пароль? Восстанови по контрольным вопросам или e-mail.',
+    f6t:'Экспорт данных', f6d:'Скачай все пароли в CSV, JSON или HTML в один клик. Твои данные — только твои.',
+    inst_title:'Установка за 1 минуту', inst_sub:'Работает в Chrome, Yandex Browser, Edge и любом Chromium-браузере',
+    s1t:'Скачай ZIP', s1d:'Нажми кнопку ниже и сохрани архив',
+    s2t:'Распакуй', s2d:'Разархивируй в любую папку',
+    s3t:'Открой расширения', s3d:'В адресной строке введи',
+    s4t:'Режим разработчика', s4d:'Переключатель в правом верхнем углу',
+    s5t:'Загрузи папку', s5d:'Нажми «Загрузить распакованное» и выбери папку',
+    btn_dl_big:'⬇ Скачать VaultNova v1.2.0',
+    lang_title:'Поддерживаемые языки', lang_sub:'Выбирается при первом запуске и в настройках',
+    footer_made:'Сделано с ❤️', footer_open:'Открытый исходный код',
+    footer_privacy:'Твои пароли хранятся только у тебя. Мы не видим никаких данных.',
+  },
+  en: {
+    nav_features:'Features', nav_install:'Install', nav_dl:'⬇ Download',
+    badge:'🆕 Version 1.2.0',
+    hero_sub:'A secure password manager right in your browser. Your data is encrypted and never shared.',
+    btn_dl:'⬇ Download for Chrome', btn_how:'How to install →',
+    ver_label:'Latest version:', ver_free:'Free', ver_open:'Open source',
+    feat_title:'Everything you need', feat_sub:'No subscriptions, no cloud servers, no tracking',
+    f1t:'AES-256 Encryption', f1d:'All passwords are encrypted with your master password right in the browser. Nobody else has access.',
+    f2t:'Multiple storages', f2d:'Chrome Sync, Dropbox, Google Drive, WebDAV or local file. Pick yours or use all at once.',
+    f3t:'Multiple accounts', f3d:'Store multiple logins for one site — for example, work and personal YouTube accounts.',
+    f4t:'8 languages', f4d:'Russian, English, Deutsch, Français, Español, 中文, 日本語, العربية.',
+    f5t:'Password recovery', f5d:'Forgot your master password? Recover via security questions or e-mail.',
+    f6t:'Data export', f6d:'Download all passwords as CSV, JSON or HTML in one click. Your data is yours only.',
+    inst_title:'Install in 1 minute', inst_sub:'Works in Chrome, Yandex Browser, Edge and any Chromium browser',
+    s1t:'Download ZIP', s1d:'Click the button below and save the archive',
+    s2t:'Unzip', s2d:'Extract to any folder',
+    s3t:'Open extensions', s3d:'Type in the address bar',
+    s4t:'Developer mode', s4d:'Toggle in the top-right corner',
+    s5t:'Load folder', s5d:'Click "Load unpacked" and select the',
+    btn_dl_big:'⬇ Download VaultNova v1.2.0',
+    lang_title:'Supported languages', lang_sub:'Choose on first launch or in settings',
+    footer_made:'Made with ❤️', footer_open:'Open source',
+    footer_privacy:'Your passwords are stored only by you. We see no data.',
+  }
+};
+
+let curLang = localStorage.getItem('vn_lang') ||
+  (navigator.language||'').startsWith('ru') ? 'ru' : 'en';
+
+function setLang(l) {
+  curLang = l;
+  localStorage.setItem('vn_lang', l);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent===l.toUpperCase()));
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    const key = el.dataset.lang;
+    if (T[l][key]) el.textContent = T[l][key];
+  });
+  document.documentElement.lang = l;
+  document.title = l==='ru' ? 'VaultNova — Безопасный менеджер паролей' : 'VaultNova — Secure Password Manager';
+}
+
+// Auto-detect on load
+setLang(curLang);
+</script>
 </body>
 </html>
