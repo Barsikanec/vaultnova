@@ -1,0 +1,8 @@
+{
+  "version": "1.1.0",
+  "downloadUrl": "https://barsikanec.github.io/vaultnova/VaultNova_latest.zip",
+  "changelog": {
+    "ru": "Локализация 8 языков, экспорт CSV/JSON/HTML/.vault, полноценная вкладка, авто-обновления",
+    "en": "8 languages, CSV/JSON/HTML/.vault export, full-tab mode, auto-updates"
+  }
+}
