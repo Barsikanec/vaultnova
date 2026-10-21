@@ -1,8 +1,8 @@
 {
-  "version": "1.1.0",
-  "downloadUrl": "https://barsikanec.github.io/vaultnova/VaultNova_latest.zip",
-  "changelog": {
-    "ru": "Локализация 8 языков, экспорт CSV/JSON/HTML/.vault, полноценная вкладка, авто-обновления",
-    "en": "8 languages, CSV/JSON/HTML/.vault export, full-tab mode, auto-updates"
-  }
+    "version": "1.2.0",
+    "downloadUrl": "https://barsikanec.github.io/vaultnova/VaultNova_latest.zip",
+    "changelog": {
+        "ru": "Несколько аккаунтов в группе, восстановление пароля по вопросам и e-mail, мульти-синхронизация хранилищ",
+        "en": "Multiple accounts per group, password recovery by questions and e-mail, multi-storage sync"
+    }
 }
